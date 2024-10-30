@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {{ super() }}
+    <h2>Register</h2>
+    <form action="{{ url_for('register') }}" method="post" class="form-contact">
+        <p><label>Username: </label><input type="text" name="username" required /></p>
+        <p><label>Password: </label><input type="password" name="password" required /></p>
+        <p><input type="submit" value="Register" /></p>
+    </form>
+{% endblock %}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link type="text/css" href="{{ url_for('static', path='css/styles.css') }}" rel="stylesheet" />
+    {% block title %}
+    {% if title %}
+        <title>SQL-FastAPI - {{ title }}</title>
+    {% else %}
+        <title>About FastAPI - SQL - DB</title>
+    {% endif %}
+    {% endblock %}
+</head>
+
+<body>
+{% block content %}
+
+    {% block mainmenu %}
+    <ul class="mainmenu">
+        <li><a href="{{ url_for('index') }}">Main page</a></li>
+
+        {% if request.cookies.get('access_token') %}
+            <li><a href="{{ url_for('add_post') }}">Add post</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        {% else %}
+            <li><a href="{{ url_for('register') }}">Register</a></li>
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+        {% endif %}
+    </ul>
+    {% endblock mainmenu %}
+
+    <div class="clear"></div>
+    <div class="content">
+        {% if title %}
+            <h1>{{ title }}</h1>
+        {% else %}
+            <h1>About FastAPI</h1>
+        {% endif %}
+    {% endblock %}
+</div>
+</body>
+</html>
