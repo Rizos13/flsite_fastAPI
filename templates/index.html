@@ -7,7 +7,8 @@
     <ul class="list-posts">
         {% for p in posts %}
             <li>
-                <p class="title"><a href="{{ url_for('show_post', post_id=p['id']) }}">{{ p['title'] }}</a></p>
+                <p class="title"><a href="{{ request.url_for('show_post', post_id=p['id']) }}">{{ p['title'] }}</a></p>
+                <p class="owner-info">by {{ p['owner_username'] }} on {{ p['time'].strftime('%Y-%m-%d %H:%M:%S') }}</p>
                 <p class="annonce">{{ p['text'][:50] }}</p>
             </li>
         {% endfor %}

@@ -1,9 +1,8 @@
 {% extends 'base.html' %}
-
 {% block content %}
     {{ super() }}
-
-    <form action="{{ url_for('add_post_form') }}" method="post" class="form-contact">
+    <form action="{{ request.url_for('add_post_form') }}" method="post" class="form-contact">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
         <p><label>Title of the post: </label> <input type="text" name="name" required /></p>
         <p><label>Text of the post:</label></p>
         <p><textarea name="post" rows="7" cols="40"></textarea></p>

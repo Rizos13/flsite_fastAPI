@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Error {{ status_code }}</h1>
+    <p>{{ detail }}</p>
+    <a href="{{ request.url_for('index') }}">Return to main page</a>
+{% endblock %}

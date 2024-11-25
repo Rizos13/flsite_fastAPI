@@ -4,5 +4,13 @@
     {{ super() }}
     <hr>
     <h2>{{ post['title'] }}</h2>
+    <p><strong>Posted by:</strong> {{ post['owner_username'] }}</p>
     <p>{{ post['text'] }}</p>
+
+    {% if user and user['username'] == post['owner_username'] %}
+        <form action="/user/delete_post/{{ post['id'] }}" method="post" onsubmit="return confirm('Are you sure you want to delete this post?');">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+            <button type="submit" class="delete-button">Delete</button>
+        </form>
+    {% endif %}
 {% endblock %}

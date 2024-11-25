@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
-
 {% block content %}
     {{ super() }}
     <h2>Login</h2>
-    <form action="{{ url_for('login') }}" method="post" class="form-contact">
+    <form action="{{ request.url_for('login') }}" method="post" class="form-contact">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
         <p><label>Username: </label><input type="text" name="username" required /></p>
         <p><label>Password: </label><input type="password" name="password" required /></p>
         <p><input type="submit" value="Login" /></p>

@@ -97,3 +97,47 @@ ul.list-posts .annonce {
     margin: 0;
     padding: 10px 5px 10px 5px;
 }
+
+
+.button {
+    background-color: #204345;
+    color: #fdc073;
+    border: 1px solid #fdc073;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'Futura';
+    transition: color 0.3s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.button:hover {
+    color: #000;
+}
+
+
+.button:focus,
+.button:active {
+    outline: none;
+    box-shadow: none;
+    background-color: #204345;
+    color: #fdc073;
+}
+
+
+.delete-button {
+    background-color: #CC0000;
+    color: #000;
+    border: none;
+    padding: 5px 10px;
+    margin-top: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 3px;
+}
+
+.delete-button:hover {
+    background-color: #FF0000;
+}

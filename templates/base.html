@@ -2,41 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link type="text/css" href="{{ url_for('static', path='css/styles.css') }}" rel="stylesheet" />
+    <link type="text/css" href="{{ request.url_for('static', path='css/styles.css') }}" rel="stylesheet" />
     {% block title %}
     {% if title %}
-        <title>SQL-FastAPI - {{ title }}</title>
+        <title>{{ title }}</title>
     {% else %}
-        <title>About FastAPI - SQL - DB</title>
+        <title>FastAPI Project</title>
     {% endif %}
     {% endblock %}
 </head>
-
 <body>
-{% block content %}
-
     {% block mainmenu %}
     <ul class="mainmenu">
-        <li><a href="{{ url_for('index') }}">Main page</a></li>
+        <li><a href="{{ request.url_for('index') }}" class="button">Main page</a></li>
 
-        {% if request.cookies.get('access_token') %}
-            <li><a href="{{ url_for('add_post') }}">Add post</a></li>
-            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        {% if user %}
+            {% if user['role'] == 'admin' %}
+                <li><a href="{{ request.url_for('admin_tools') }}" class="button">Admin Tools</a></li>
+            {% elif user['role'] == 'manager' %}
+                <li><a href="{{ request.url_for('manager_tools') }}" class="button">Manager Tools</a></li>
+            {% endif %}
+
+            <li><a href="{{ request.url_for('add_post') }}" class="button">Add post</a></li>
+            <li>
+                <form action="{{ request.url_for('logout') }}" method="post" style="display: inline;">
+                    <button type="submit" class="button">Logout</button>
+                </form>
+            </li>
         {% else %}
-            <li><a href="{{ url_for('register') }}">Register</a></li>
-            <li><a href="{{ url_for('login') }}">Login</a></li>
+            <li><a href="{{ request.url_for('register') }}" class="button">Register</a></li>
+            <li><a href="{{ request.url_for('login') }}" class="button">Login</a></li>
         {% endif %}
     </ul>
-    {% endblock mainmenu %}
+    {% endblock %}
 
     <div class="clear"></div>
     <div class="content">
-        {% if title %}
-            <h1>{{ title }}</h1>
-        {% else %}
-            <h1>About FastAPI</h1>
-        {% endif %}
-    {% endblock %}
-</div>
+        {% block content %}
+        {% endblock %}
+    </div>
 </body>
 </html>

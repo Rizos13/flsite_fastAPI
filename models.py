@@ -9,12 +9,12 @@ class FDataBase:
         query = "SELECT * FROM mainmenu"
         return await self.db.fetch_all(query)
 
-    async def addPost(self, title, text, is_visible=True):
+    async def addPost(self, title, text, owner_username, is_visible=True):
         query = """
-            INSERT INTO posts (title, text, time, is_visible)
-            VALUES (:title, :text, now(), :is_visible)
+            INSERT INTO posts (title, text, owner_username, time, is_visible)
+            VALUES (:title, :text, :owner_username, now(), :is_visible)
         """
-        values = {"title": title, "text": text, "is_visible": is_visible}
+        values = {"title": title, "text": text, "owner_username": owner_username, "is_visible": is_visible}
         try:
             await self.db.execute(query, values)
             return True
@@ -23,12 +23,21 @@ class FDataBase:
             return False
 
     async def getPostsAnonce(self):
-        query = "SELECT id, title, text FROM posts WHERE is_visible = TRUE ORDER BY time DESC"
+        query = "SELECT id, title, text, owner_username, time FROM posts WHERE is_visible = TRUE ORDER BY time DESC"
         return await self.db.fetch_all(query)
 
-    async def getPost(self, post_id):
-        query = "SELECT title, text FROM posts WHERE id = :post_id LIMIT 1"
+    async def get_post(self, post_id):
+        query = "SELECT id, title, text, owner_username FROM posts WHERE id = :post_id LIMIT 1"
         return await self.db.fetch_one(query, values={"post_id": post_id})
+
+    async def delete_post(self, post_id):
+        query = "DELETE FROM posts WHERE id = :post_id"
+        try:
+            await self.db.execute(query, values={"post_id": post_id})
+            return True
+        except Exception as e:
+            print(f"Error deleting post: {e}")
+            return False
 
 class User:
     def __init__(self, db):
@@ -54,6 +63,11 @@ class User:
         if result and bcrypt.checkpw(password.encode(), result["password_hash"].encode()):
             return {"username": username, "role": result["role"]}
         return None
+
+    async def get_user(self, username: str):
+        query = "SELECT username, role FROM users WHERE username = :username"
+        result = await self.db.fetch_one(query, {"username": username})
+        return result
 
     async def get_user_role(self, username: str):
         query = "SELECT role FROM users WHERE username = :username"

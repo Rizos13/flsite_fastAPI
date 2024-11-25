@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {{ super() }}
+    <h2>Admin Tools</h2>
+    <ul class="list-posts">
+        {% for post in posts %}
+            <li>
+                <p class="title">{{ post['title'] }}</p>
+                <p class="owner-info">by {{ post['owner_username'] }} on {{ post['time'].strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                <p class="annonce">{{ post['text'][:50] }}</p>
+                <form action="/admin/delete_post/{{ post['id'] }}" method="post" style="display: inline;">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
+                    <button type="submit" class="delete-button">Delete</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
